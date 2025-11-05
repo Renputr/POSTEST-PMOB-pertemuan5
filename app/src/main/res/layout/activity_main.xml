@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
-    <ListView
-        android:id="@+id/lvRoomDb"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRoomDb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton

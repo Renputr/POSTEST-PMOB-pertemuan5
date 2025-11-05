@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Style bawaan aplikasi kamu -->
+    <style name="Theme.BaseProj5" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- konfigurasi tema kamu -->
+    </style>
+
+    <!-- Style khusus untuk gambar bulat -->
+    <style name="CircleImageViewStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>
+
+
