@@ -28,6 +28,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -35,6 +36,8 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    // ✅ aktifkan ViewBinding
     buildFeatures {
         viewBinding = true
     }
@@ -47,11 +50,17 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    // Room Database
     implementation("androidx.room:room-runtime:2.5.2")
-    implementation("androidx.room:room-ktx:2.5.2") // <--- WAJIB untuk suspend Room
     kapt("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    // Coroutine dan LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+

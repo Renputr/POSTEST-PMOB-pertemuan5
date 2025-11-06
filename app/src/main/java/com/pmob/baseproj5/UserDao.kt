@@ -1,28 +1,31 @@
-package com.pmob.baseproj5
+package com.pmob.baseproj5.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface UserDao {
 
-    // Tambah user baru
+    // Ambil semua data user secara langsung (bukan Flow)
+    @Query("SELECT * FROM user_table ORDER BY id DESC")
+    fun getAllUsers(): List<DataUser>
+
+    // Insert data (sinkron)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(dataUser: DataUser): Long
+    fun insert(user: DataUser): Long
 
-    // Update data user
+    // Update data
     @Update
-    suspend fun update(dataUser: DataUser)
+    fun update(user: DataUser)
 
-    // Hapus data user
+    // Hapus satu data
     @Delete
-    suspend fun delete(dataUser: DataUser)
+    fun delete(user: DataUser)
 
-    // Ambil semua user
-    @Query("SELECT * FROM tb_user ORDER BY id ASC")
-    fun getAllUser(): LiveData<List<DataUser>>
+    // Hapus semua data
+    @Query("DELETE FROM user_table")
+    fun deleteAll()
 
-    // Ambil satu user berdasarkan ID
-    @Query("SELECT * FROM tb_user WHERE id = :userId LIMIT 1")
-    suspend fun getUserById(userId: Int): DataUser?
+    // Ambil user berdasarkan ID
+    @Query("SELECT * FROM user_table WHERE id = :userId LIMIT 1")
+    fun getUserById(userId: Int): DataUser?
 }

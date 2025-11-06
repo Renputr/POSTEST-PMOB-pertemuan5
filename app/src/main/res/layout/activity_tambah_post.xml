@@ -1,101 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
-    android:layout_margin="16dp"
-    android:backgroundTint="@android:color/white">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#FAFAFA">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/white">
 
-        <!-- Judul -->
-        <TextView
-            android:id="@+id/tvJudul"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tambah Post Baru"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:layout_marginBottom="12dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Label -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buat Post Baru"
-            android:textStyle="bold"
-            android:textColor="@color/teal_700"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            <!-- Judul -->
+            <TextView
+                android:id="@+id/tvJudul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tambah Post Baru"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:layout_marginBottom="12dp" />
 
-        <!-- Input Username -->
-        <EditText
-            android:id="@+id/etUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username"
-            android:background="@drawable/edittext_border_green"
-            android:padding="10dp"
-            android:inputType="textPersonName"
-            android:layout_marginBottom="8dp" />
+            <!-- Label -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Isi Data Post"
+                android:textStyle="bold"
+                android:textColor="@color/teal_700"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
 
-        <!-- Input Caption -->
-        <EditText
-            android:id="@+id/etCaption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tulis caption..."
-            android:background="@drawable/edittext_border_green"
-            android:minLines="3"
-            android:gravity="top|start"
-            android:padding="10dp"
-            android:inputType="textMultiLine"
-            android:layout_marginBottom="8dp" />
+            <!-- Input Nama -->
+            <EditText
+                android:id="@+id/etNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nama"
+                android:background="@drawable/edittext_border_green"
+                android:padding="10dp"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="8dp" />
 
-        <!-- Tombol Tambah Gambar -->
-        <Button
-            android:id="@+id/btnTambahGambar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tambah Gambar"
-            android:textColor="#1B5E20"
-            android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_add_photo"
-            android:drawableTint="#1B5E20"
-            android:drawablePadding="8dp"
-            android:background="@drawable/button_outline_green"
-            android:padding="10dp"
-            android:layout_marginBottom="8dp"/>
+            <!-- Input Deskripsi -->
+            <EditText
+                android:id="@+id/etDeskripsi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Deskripsi"
+                android:background="@drawable/edittext_border_green"
+                android:minLines="3"
+                android:gravity="top|start"
+                android:padding="10dp"
+                android:inputType="textMultiLine"
+                android:layout_marginBottom="8dp" />
 
-        <!-- Preview Gambar -->
-        <ImageView
-            android:id="@+id/imgPreview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:src="@drawable/post_run"
-            android:background="@drawable/image_background"
-            android:layout_marginBottom="12dp" />
+            <!-- Input Tanggal -->
+            <EditText
+                android:id="@+id/etTanggal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tanggal (contoh: 06/11/2025)"
+                android:background="@drawable/edittext_border_green"
+                android:padding="10dp"
+                android:inputType="date"
+                android:layout_marginBottom="8dp" />
 
-        <!-- Tombol Simpan -->
-        <Button
-            android:id="@+id/btnSimpan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Simpan"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:backgroundTint="#1B5E20" />
+            <!-- Tombol Tambah Gambar -->
+            <Button
+                android:id="@+id/btnTambahGambar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tambah Gambar"
+                android:textColor="#1B5E20"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/ic_add_photo"
+                android:drawableTint="#1B5E20"
+                android:drawablePadding="8dp"
+                android:background="@drawable/button_outline_green"
+                android:padding="10dp"
+                android:layout_marginBottom="8dp"/>
 
-    </LinearLayout>
+            <!-- Preview Gambar -->
+            <ImageView
+                android:id="@+id/imgPreview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:src="@drawable/post_run"
+                android:background="@drawable/image_background"
+                android:layout_marginBottom="12dp" />
 
-</androidx.cardview.widget.CardView>
+            <!-- Tombol Simpan -->
+            <Button
+                android:id="@+id/btnSimpan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Simpan"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#1B5E20" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</ScrollView>

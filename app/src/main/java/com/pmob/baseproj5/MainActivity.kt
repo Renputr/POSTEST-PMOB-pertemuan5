@@ -3,46 +3,53 @@ package com.pmob.baseproj5
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pmob.baseproj5.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.pmob.baseproj5.adapter.UserAdapter
+import com.pmob.baseproj5.data.DataUser
+import com.pmob.baseproj5.data.UserDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var dbUser: DatabaseUser
-    private lateinit var userDao: UserDao
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: UserAdapter
+    private lateinit var fabAdd: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        // Inisialisasi database & DAO
-        dbUser = DatabaseUser.getDatabase(applicationContext)
-        userDao = dbUser.userDao()
+        recyclerView = findViewById(R.id.recyclerView)
+        fabAdd = findViewById(R.id.fabAdd)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        setupRecyclerView()
-        observeData()
-        setupListeners()
-    }
+        // Panggil fungsi untuk load data dari Room
+        loadData()
 
-    private fun setupRecyclerView() {
-        binding.rvRoomDb.layoutManager = LinearLayoutManager(this)
-    }
-
-    private fun observeData() {
-        // Observasi LiveData dari database
-        userDao.getAllUser().observe(this, Observer { list ->
-            binding.rvRoomDb.adapter = UserAdapter(list)
-        })
-    }
-
-    private fun setupListeners() {
-        // FAB tambah post baru
-        binding.fabAdd.setOnClickListener {
-            val intent = Intent(this, TambahPostActivity::class.java)
-            startActivity(intent)
+        fabAdd.setOnClickListener {
+            startActivity(Intent(this, TambahPostActivity::class.java))
         }
+    }
+
+    private fun loadData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val db = UserDatabase.getDatabase(this@MainActivity)
+            val users: List<DataUser> = db.userDao().getAllUsers() // langsung List, bukan Flow
+            withContext(Dispatchers.Main) {
+                adapter = UserAdapter(users)
+                recyclerView.adapter = adapter
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh data setiap kali kembali dari TambahPostActivity
+        loadData()
     }
 }

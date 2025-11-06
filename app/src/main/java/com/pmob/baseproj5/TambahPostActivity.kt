@@ -1,74 +1,65 @@
 package com.pmob.baseproj5
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.pmob.baseproj5.databinding.ActivityTambahPostBinding
+import com.pmob.baseproj5.data.DataUser
+import com.pmob.baseproj5.data.UserDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class TambahPostActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityTambahPostBinding
-    private lateinit var dbUser: DatabaseUser
-    private lateinit var userDao: UserDao
+    private lateinit var etNama: EditText
+    private lateinit var etDeskripsi: EditText
+    private lateinit var etTanggal: EditText
+    private lateinit var btnSimpan: Button
 
-    private var selectedImageUri: Uri? = null
-
-    // Launcher modern untuk memilih gambar dari galeri
-    private val pickImageLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                selectedImageUri = result.data?.data
-                binding.imgPreview.setImageURI(selectedImageUri)
-            }
-        }
-
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTambahPostBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_tambah_post)
 
-        // Inisialisasi database dan DAO
-        dbUser = DatabaseUser.getDatabase(applicationContext)
-        userDao = dbUser.userDao()
+        etNama = findViewById(R.id.etNama)
+        etDeskripsi = findViewById(R.id.etDeskripsi)
+        etTanggal = findViewById(R.id.etTanggal)
+        btnSimpan = findViewById(R.id.btnSimpan)
 
-        setupListeners()
-    }
+        btnSimpan.setOnClickListener {
+            val nama = etNama.text.toString().trim()
+            val deskripsi = etDeskripsi.text.toString().trim()
+            val tanggal = etTanggal.text.toString().trim()
 
-    private fun setupListeners() {
-        // Tombol untuk memilih gambar
-        binding.btnTambahGambar.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK).apply {
-                type = "image/*"
-            }
-            pickImageLauncher.launch(intent)
-        }
-
-        // Tombol Simpan Postingan
-        binding.btnSimpan.setOnClickListener {
-            val username = binding.etUsername.text.toString().trim()
-            val caption = binding.etCaption.text.toString().trim()
-            val imageUri = selectedImageUri?.toString()
-
-            if (username.isEmpty() || caption.isEmpty()) {
+            if (nama.isEmpty() || deskripsi.isEmpty() || tanggal.isEmpty()) {
                 Toast.makeText(this, "Semua data harus diisi!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            } else {
+                val user = DataUser(
+                    nama = nama,
+                    deskripsi = deskripsi,
+                    tanggal = tanggal,
+                    gambar = "@drawable/default_image"
+                )
 
-            // Simpan ke database Room
-            lifecycleScope.launch(Dispatchers.IO) {
-                val newUser = DataUser(username = username, caption = caption, imageUri = imageUri)
-                userDao.insert(newUser)
-            }
+                // Simpan data di background thread
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val db = UserDatabase.getDatabase(this@TambahPostActivity)
+                    db.userDao().insert(user)
 
-            Toast.makeText(this, "Post berhasil disimpan!", Toast.LENGTH_SHORT).show()
-            finish() // Kembali ke MainActivity
+                    // Balik ke MainActivity di thread utama
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@TambahPostActivity,
+                            "Data berhasil disimpan!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+                }
+            }
         }
     }
 }

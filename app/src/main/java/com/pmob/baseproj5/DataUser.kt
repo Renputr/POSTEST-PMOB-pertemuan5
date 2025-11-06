@@ -1,13 +1,14 @@
-package com.pmob.baseproj5
+package com.pmob.baseproj5.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "tb_user")
+@Entity(tableName = "user_table")
 data class DataUser(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-    var username: String,
-    var caption: String,
-    var imageUri: String? = null
+    val id: Int = 0,
+    val nama: String,
+    val deskripsi: String,
+    val tanggal: String,
+    val gambar: String
 )
